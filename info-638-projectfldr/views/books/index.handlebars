@@ -1,0 +1,10 @@
+<h1>Books</h1>
+<a href="/books/form">Create a new book</a>
+{{!-- {{#each books}}
+<li>{{this.title}} {{this.publishingYear}}</li>
+{{/each}} --}}
+<ul>
+{{#each books}}
+<li>{{this.title}} {{this.publishingYear}}</li>
+{{/each}}
+</ul>
