@@ -6,7 +6,7 @@ const Author = require('../models/author');
 
 
 router.get('/', function(req, res, next) {
-  
+  const authors = Author.all
   res.render('authors/index', { title: 'BookedIn || Authors', authors: Author.all });
 });
 
@@ -14,11 +14,19 @@ router.get('/form', async (req, res, next) => {
   res.render('authors/form', { title: 'BookedIn || Authors' });
 });
 
-router.post('/create', async (req, res, next) => {
+router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body))
-  Author.add(req.body);
+  Author.upsert(req.body);
   res.redirect(303, '/authors')
 });
+
+router.get('/edit', async (req, res, next) => {
+  let authorIdx = req.query.id;
+  let author = Author.get(authorIdx);
+  // res.render('authors/form', { title: 'BookedIn || Authors', author: author });
+  res.render('authors/form', { title: 'BookedIn || Authors', author: author, authorIdx: authorIdx });
+});
+
 
 
 module.exports = router;
