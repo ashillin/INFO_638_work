@@ -8,7 +8,7 @@
     <label for="bookYear">Year published</label>
     <input type="text" id="bookYear" name="publishingYear" {{#if book}}value="{{book.publishingYear}}"{{/if}}>
   </div>
-      <div class="mb-3">
+   <div class="mb-3">
     <label for="author_id">Author</label>
     <select name="authorIds" multiple id="authorIds">
       <option disabled value>-- select Author --</option>
@@ -19,8 +19,18 @@
         </option>
       {{/each}}
     </select>
-
-
+  </div>
+  <div class="mb-3">
+    <label for="genre_id">Genre</label>
+    <select name="genreIds" multiple id="genreIds">
+      <option disabled value>-- select Genre --</option>
+      {{#each genres}}
+        <option value="{{@index}}"
+          {{#if (and @root.book (in @root.book.genreIds @index))}}selected{{/if}}>
+            {{this.genreName}}
+        </option>
+      {{/each}}
+    </select>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
   {{#if book}}
@@ -29,5 +39,4 @@
       <input type="hidden" name="id" value="{{bookIndex}}">
     </div>
   {{/if}}
-
 </form>

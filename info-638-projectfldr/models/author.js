@@ -5,7 +5,7 @@ const authors = [
   {firstName: "James", lastName: "Patterson"},
   {firstName: "George", lastName: "R. R. Martin"},
   {firstName: "Walter", lastName: "Rodney"},
-]
+];
 
 exports.all = authors;
 exports.add = (author) => {
@@ -13,7 +13,7 @@ exports.add = (author) => {
 };
 exports.get = (idx) => {
   return authors[idx];
-;}
+};
 exports.update = (author) => {
   authors[author.id] = author;
 };
