@@ -26,7 +26,7 @@
       <option disabled value>-- select Genre --</option>
       {{#each genres}}
         <option value="{{@index}}"
-          {{#if (and @root.book (in @root.book.genreIds @index))}}selected{{/if}}>
+          {{#if (and @root.book (in @root.book.genreIds @index))}}selected{{/if}}>  {{!--creating genre election box in book form view--}}
             {{this.genreName}}
         </option>
       {{/each}}

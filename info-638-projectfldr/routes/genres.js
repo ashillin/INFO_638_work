@@ -14,6 +14,12 @@ router.get('/form', async (req, res, next) => { //creating form for adding a new
 router.post('/upsert', async (req, res, next) => {  //creating framwork to allow updating current genres and creating new genres
     console.log('body: ' +JSON.stringify(req.body));
     Genre.upsert(req.body);
+    const createdOrupdated = req.body.id ? 'updated' : 'created';
+     req.session.flash = {
+        type: 'info',
+        intro: 'Success!',
+        message: `The genre has been ${createdOrupdated}!`,
+     };
     res.redirect(303, '/genres')
 });
 router.get('/edit', async (req, res, next) => { //creating edit page for genres that remembers the genres information and inputs it into the field
