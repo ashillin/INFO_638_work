@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const { credentials } = require('./config');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
+const csrf = require('csurf');
+const helpers = require('./routes/helpers')
 
 
 //application imports
@@ -11,6 +13,9 @@ const indexRouter = require('./routes/index');
 const authorsRouter = require('./routes/authors');
 const booksRouter = require('./routes/books');
 const genresRouter = require('./routes/genres');    //creating genres page
+const usersRouter = require('./routes/users');
+const booksUsersRouter = require('./routes/books_users');
+const commentsRouter = require('./routes/comments');  //creating comments page
 
 //framework setup
 const app = express();
@@ -45,6 +50,11 @@ app.use(expressSession({
   saveUninitialized: false,
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
+app.use(csrf({ cookie: true }))
+app.use((req, res, next) => {
+  res.locals._csrfToken = req.csrfToken()
+  next()
+});
 
 
 // session configuration
@@ -54,6 +64,10 @@ app.use((req, res, next) => {
   delete req.session.flash
   next()
 })
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.currentUser
+  next()
+})
 
 
 //application setup
@@ -61,6 +75,9 @@ app.use('/', indexRouter);
 app.use('/authors', authorsRouter);
 app.use('/books', booksRouter);
 app.use('/genres', genresRouter);   //using express to make the genres page function
+app.use('/users', usersRouter);
+app.use('/books_users', booksUsersRouter);
+app.use('/comments', commentsRouter); //using express to make the comments page function
 
 app.use ((req,res) => {
     res.type('text/plain');

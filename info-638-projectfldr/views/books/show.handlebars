@@ -1,4 +1,5 @@
 <form action="/books/upsert" role="form" method="post">
+<input type="hidden" name="_csrf" value="{{_csrfToken}}">
   <h1>{{book.title}}</h1>
 {{#if authors}}
 <p>Written by {{#each authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}
@@ -13,3 +14,30 @@
 </p>
 {{/if}}
 </form>
+{{#if currentUser}}
+<div>
+  <form action="/books_users/upsert" role="form" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+    <input type="hidden" name="bookId" value="{{bookId}}">
+    <input type="hidden" name="userEmail" value="{{currentUser.email}}">
+    <label for="status">Status</label>
+    <select name="status" id="status">
+      {{#unless (and bookUser bookUser.status)}}
+        <option disabled value selected>-- select status --</option>
+      {{/unless}}
+      {{#each statuses}}
+        <option value="{{this}}" {{#if (and @root.bookUser (eq @root.bookUser.status this))}}selected{{/if}}>{{this}}</option>
+      {{/each}}
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{{/if}}
+<div>
+  <h1>Comments</h1>
+  <a href="/comments/form">Add a Comment</a>
+  {{#if comments}}
+    <p>{{#each comments}}{{this.text}} By {{this.userEmail}}<br>{{#if userEmail}}<a href="/comments/edit?id={{@index}}">Edit</a>{{/if}}<br>{{/each}}
+    </p>
+  {{/if}}
+</div>

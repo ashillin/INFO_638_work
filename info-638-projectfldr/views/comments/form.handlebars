@@ -1,0 +1,14 @@
+<form action="/comments/upsert" role="form" method="post">    {{!--//defining what the form page will look for creating and editing comments--}}
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+    <div>
+        <h1>{{title}}</h1>
+        <label for="comment_text">Comment</label>
+        <input type="text" id="comment_text" name="text" {{#if comment}}value="{{comment.text}}"{{/if}}> {{!--//checking if the comment is given--}}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{#if comment}}
+        <div>
+            <input type="hidden" name="id" value="{{commentIdx}}">    {{!-- //checking if the comment id is new --}}
+        </div>
+    {{/if}}
+    </form>

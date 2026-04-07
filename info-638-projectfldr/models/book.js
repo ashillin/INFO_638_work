@@ -15,6 +15,12 @@ exports.get = (idx) => {
   return books[idx];
 };
 exports.upsert = (book) => {
+  if (book.authorIds && !Array.isArray(book.authorIds)) {
+  book.authorIds = [book.authorIds];
+  }
+  if (book.genreIds && !Array.isArray(book.genreIds)) {
+  book.genreIds = [book.genreIds];
+  }
   if (book.id) {
     exports.update(book);
   } else {

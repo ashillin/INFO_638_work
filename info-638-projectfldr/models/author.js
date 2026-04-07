@@ -6,8 +6,12 @@ const authors = [
   {firstName: "George", lastName: "R. R. Martin"},
   {firstName: "Walter", lastName: "Rodney"},
 ];
-
-exports.all = authors;
+const db = require('../database');
+exports.all = async () => {
+ const { rows } = await db.getPool().query("select * from authors order by id");
+ return db.camelize(rows);
+};
+// exports.all = authors;
 exports.add = (author) => {
     authors.push(author);
 };

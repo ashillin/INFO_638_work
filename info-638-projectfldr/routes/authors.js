@@ -3,15 +3,15 @@ const router = express.Router();
 const Author = require('../models/author');
 
 
-
-router.get('/', function(req, res, next) {
-  const authors = Author.all
-  res.render('authors/index', { title: 'BookedIn || Authors', authors: Author.all });
+router.get('/', async (req, res, next) => {
+ let authors = await Author.all();
+ res.render('authors/index', { title: 'BookedIn || Authors', authors: authors });
 });
 
 router.get('/form', async (req, res, next) => {
-  res.render('authors/form', { title: 'BookedIn || Authors' });
+  res.render('authors/form', { title: 'BookedIn || Authors', authors: Author.all });
 });
+
 
 router.post('/upsert', async (req, res, next) => {
   console.log('body: ' + JSON.stringify(req.body))

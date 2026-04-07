@@ -1,4 +1,6 @@
 <form action="/genres/upsert" role="form" method="post">    {{!--//defining what the form page will look for creating and editing new genres--}}
+    <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+
     <div>
         <h1>{{title}}</h1>
         <label for="genre_name">Genre Name</label>
@@ -7,7 +9,6 @@
     <button type="submit" class="btn btn-primary">Submit</button>
     {{#if genre}}
         <div>
-            <h2>{{genre.genreName}}</h2>
             <input type="hidden" name="id" value="{{genreIdx}}">    {{!-- //checkingif the genre id is new --}}
         </div>
     {{/if}}

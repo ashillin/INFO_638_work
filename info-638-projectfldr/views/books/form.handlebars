@@ -1,4 +1,5 @@
 <form action="/books/upsert" role="form" method="post">
+<input type="hidden" name="_csrf" value="{{_csrfToken}}">
   <div>
     <h1>Books form</h1>
     <label for="bookTitle">Title</label>
@@ -35,7 +36,6 @@
   <button type="submit" class="btn btn-primary">Submit</button>
   {{#if book}}
     <div>
-      <h2>{{book.firstName}} {{book.lastName}}</h2>
       <input type="hidden" name="id" value="{{bookIndex}}">
     </div>
   {{/if}}
