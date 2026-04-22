@@ -1,8 +1,8 @@
 <form action="/books/upsert" role="form" method="post">
 <input type="hidden" name="_csrf" value="{{_csrfToken}}">
   <h1>{{book.title}}</h1>
-{{#if authors}}
-<p>Written by {{#each authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}
+{{#if book.authors}}
+<p>Written by {{#each book.authors}}{{this.firstName}} {{this.lastName}}{{#unless @last}}, {{/unless}}{{/each}}
 </p>
 {{/if}}
 <p>
@@ -10,7 +10,7 @@
 </p>
 {{#if genres}}   {{!//if the book has a specific genre id attached to it then that genre id will be listed in the details page--}}
 <p>
-  Genre: {{#each genres}}{{this.genreName}}{{#unless @last}}, {{/unless}}{{/each}}  
+  Genre: {{#each genre.name}}{{this.genreName}}{{#unless @last}}, {{/unless}}{{/each}}  
 </p>
 {{/if}}
 </form>
@@ -19,14 +19,17 @@
   <form action="/books_users/upsert" role="form" method="post">
     <input type="hidden" name="_csrf" value="{{_csrfToken}}">
     <input type="hidden" name="bookId" value="{{bookId}}">
-    <input type="hidden" name="userEmail" value="{{currentUser.email}}">
+    <input type="hidden" name="userId" value="{{currentUser.id}}">
+    {{#if bookUser}}
+      <input type="hidden" name="id" value="{{bookUser.id}}">
+    {{/if}}
     <label for="status">Status</label>
     <select name="status" id="status">
-      {{#unless (and bookUser bookUser.status)}}
+      {{#unless (and bookUser bookUser.readStatus)}}
         <option disabled value selected>-- select status --</option>
       {{/unless}}
       {{#each statuses}}
-        <option value="{{this}}" {{#if (and @root.bookUser (eq @root.bookUser.status this))}}selected{{/if}}>{{this}}</option>
+        <option value="{{this}}" {{#if (and @root.bookUser (eq @root.bookUser.readStatus this))}}selected{{/if}}>{{this}}</option>
       {{/each}}
     </select>
     <button type="submit">Submit</button>
@@ -35,7 +38,15 @@
 {{/if}}
 <div>
   <h1>Comments</h1>
-  <a href="/comments/form">Add a Comment</a>
+      {{!-- <form action="/comments/upsert" role="form" method="post">     --}}
+    <input type="hidden" name="_csrf" value="plsKg8bG-YTnDOioEiiezbsuGhtSaXeBfdRI">
+    <div>
+        <h1>BookedIn || Comments Form</h1>
+        <label for="comment_text">Comment</label>
+        <input type="text" id="comment_text" name="text" > 
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{!-- </form> --}}
   {{#if comments}}
     <p>{{#each comments}}{{this.text}} By {{this.userEmail}}<br>{{#if userEmail}}<a href="/comments/edit?id={{@index}}">Edit</a>{{/if}}<br>{{/each}}
     </p>

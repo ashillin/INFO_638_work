@@ -4,12 +4,12 @@
     <div>
         <h1>{{title}}</h1>
         <label for="genre_name">Genre Name</label>
-        <input type="text" id="genre_name" name="genreName" {{#if genre}}value="{{genre.genreName}}"{{/if}}> {{!--//checking if the genre is given--}}
+        <input type="text" id="genre_name" name="genreName" {{#if genre}}value="{{genre.name}}"{{/if}}> {{!--//checking if the genre is given--}}
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     {{#if genre}}
         <div>
-            <input type="hidden" name="id" value="{{genreIdx}}">    {{!-- //checkingif the genre id is new --}}
+            <input type="hidden" name="id" value="{{genre.id}}">    {{!-- //checkingif the genre id is new --}}
         </div>
     {{/if}}
 </form>

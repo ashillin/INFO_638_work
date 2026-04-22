@@ -22,12 +22,13 @@ router.get('/login', async (req, res, next) => {
   }
   res.render('users/login', { title: 'BookedIn || Login' });
 });
+
 router.post('/login', async (req, res, next) => {
     if (helpers.isLoggedIn(req, res)) {
     return
   }
   console.log('body: ' + JSON.stringify(req.body));
-  const user = User.login(req.body)
+  const user = await User.login(req.body)
   if (user) {
     req.session.currentUser = user
     req.session.flash = {
@@ -62,7 +63,7 @@ router.post('/register', async (req, res, next) => {
         return
       }
   console.log('body: ' + JSON.stringify(req.body));
-  const user = User.getByEmail(req.body.email)
+  const user = await User.getByEmail(req.body.email)
   if (user) {
     res.render('users/register', {
       title: 'BookedIn || Login',
@@ -72,7 +73,7 @@ router.post('/register', async (req, res, next) => {
         message: `A user with this email already exists`}
     });
   } else {
-    User.add(req.body);
+    await User.add(req.body);
     req.session.flash = {
       type: 'info',
       intro: 'Success!',
@@ -86,7 +87,7 @@ router.get('/profile', async (req, res, next) => {
   if (helpers.isNotLoggedIn(req, res)) {
     return
   }
-  const booksUser = BookUser.AllForUser(req.session.currentUser.email);
+  const booksUser = await BookUser.allForUser(req.session.currentUser);
   booksUser.forEach((bookUser) => {
     bookUser.book = Book.get(bookUser.bookId)
   })
