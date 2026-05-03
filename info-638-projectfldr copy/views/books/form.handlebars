@@ -1,0 +1,42 @@
+<form action="/books/upsert" role="form" method="post">
+<input type="hidden" name="_csrf" value="{{_csrfToken}}">
+  <div>
+    <h1>Books form</h1>
+    <label for="bookTitle">Title</label>
+    <input type="text" id="bookTitle" name="title" {{#if book}}value="{{book.title}}"{{/if}}>
+  </div>
+  <div>
+    <label for="bookYear">Year published</label>
+    <input type="text" id="bookYear" name="publishingYear" {{#if book}}value="{{book.publishingYear}}"{{/if}}>
+  </div>
+   <div class="mb-3">
+    <label for="author_id">Author</label>
+    <select name="authorIds" multiple id="authorIds">
+      <option disabled value>-- select Author --</option>
+      {{#each authors}}
+        <option value="{{this.id}}"
+          {{#if (and @root.book (in @root.book.authorIds this.id))}}selected{{/if}}>
+            {{this.firstName}} {{this.lastName}}
+        </option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="genre_id">Genre</label>
+    <select name="genreIds" multiple id="genreIds">
+      <option disabled value>-- select Genre --</option>
+      {{#each genres}}
+        <option value="{{this.id}}"
+          {{#if (and @root.book (in @root.book.genreIds this.id))}}selected{{/if}}>  {{!--creating genre election box in book form view--}}
+            {{this.name}}
+        </option>
+      {{/each}}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  {{#if book}}
+    <div>
+      <input type="hidden" name="id" value="{{book.id}}">
+    </div>
+  {{/if}}
+</form>
